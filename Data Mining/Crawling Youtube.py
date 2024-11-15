@@ -51,8 +51,8 @@ def video_comments(video_id, apikey):
 
 
 # Video id nya
-# https://www.youtube.com/watch?v=QK0iod6-4ig
-video_id = "QK0iod6-4ig"
+# https://www.youtube.com/watch?v=lWp4r4Y2A58
+video_id = "lWp4r4Y2A58"
 apikey = 'AIzaSyDrwVcjd1hQpsivM11bq996l1zn9xj5r38'
 
 # jalankan function
