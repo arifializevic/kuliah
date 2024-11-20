@@ -15,7 +15,7 @@ sentiment_pipeline = pipeline(
     "sentiment-analysis", model=model, tokenizer=tokenizer)
 
 # Video ID and API Key
-video_id = "lWp4r4Y2A58"  # video ID Youtube
+video_id = "bER11eIA3y0"  # video ID Youtube
 apikey = "AIzaSyDrwVcjd1hQpsivM11bq996l1zn9xj5r38"  # API Key
 
 
