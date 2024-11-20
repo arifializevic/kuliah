@@ -8,7 +8,7 @@ from googleapiclient.discovery import build
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, pipeline
 
 # Download NLTK resources
-nltk.download('punkt')
+nltk.download('punkt_tab')
 nltk.download('stopwords')
 
 stop_words = set(stopwords.words('indonesian'))
@@ -109,37 +109,37 @@ df = pd.DataFrame(comments, columns=[
 
 df['textDisplay'] = df['textDisplay'].apply(preprocess_text_nltk)
 df['sentiment'] = df['textDisplay'].apply(analyze_sentiment_indo)
-print(df)
+df
 
 # Save ke CSV
 # output_path = 'dataset/youtube_comments.csv'
 # df.to_csv(output_path, index=False)
 # print(f"Data successfully saved to '{output_path}'")
 
-plt.figure(figsize=(8, 10))
-sns.countplot(data=df['authorDisplayName'],
-              order=df['authorDisplayName'].value_counts().index)
+# plt.figure(figsize=(8, 10))
+# sns.countplot(data=df['authorDisplayName'],
+#               order=df['authorDisplayName'].value_counts().index)
 
-# grafik positive vs neutral vs negative
-sentiment_counts = df['sentiment'].value_counts().reset_index()
-sentiment_counts.columns = ['sentiment', 'count']
-unique_sentiments = sentiment_counts['sentiment'].nunique()
-color_palette = sns.color_palette("RdYlGn", unique_sentiments)
+# # grafik positive vs neutral vs negative
+# sentiment_counts = df['sentiment'].value_counts().reset_index()
+# sentiment_counts.columns = ['sentiment', 'count']
+# unique_sentiments = sentiment_counts['sentiment'].nunique()
+# color_palette = sns.color_palette("RdYlGn", unique_sentiments)
 
-# Plot menggunakan Seaborn
-sns.barplot(
-    data=sentiment_counts,
-    x='sentiment',
-    y='count',
-    hue='sentiment',  # Menambahkan hue untuk kategori
-    palette=color_palette
-)
+# # Plot menggunakan Seaborn
+# sns.barplot(
+#     data=sentiment_counts,
+#     x='sentiment',
+#     y='count',
+#     hue='sentiment',  # Menambahkan hue untuk kategori
+#     palette=color_palette
+# )
 
-# Menambahkan judul dan label sumbu
-sns.despine()  # Menghilangkan garis tepi yang tidak perlu
-plt.title('Sentiment Distribution: Positive vs Neutral vs Negative', fontsize=16)
-plt.xlabel('Sentiment', fontsize=12)
-plt.ylabel('Number of Comments', fontsize=12)
+# # Menambahkan judul dan label sumbu
+# sns.despine()  # Menghilangkan garis tepi yang tidak perlu
+# plt.title('Sentiment Distribution: Positive vs Neutral vs Negative', fontsize=16)
+# plt.xlabel('Sentiment', fontsize=12)
+# plt.ylabel('Number of Comments', fontsize=12)
 
-# Tampilkan grafik
-plt.show()
+# # Tampilkan grafik
+# plt.show()
