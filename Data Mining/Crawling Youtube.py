@@ -112,9 +112,9 @@ df['sentiment'] = df['textDisplay'].apply(analyze_sentiment_indo)
 df
 
 # Save to CSV
-# output_path = 'dataset/youtube_comments.csv'
-# df.to_csv(output_path, index=False)
-# print(f"Data successfully saved to '{output_path}'")
+output_path = 'dataset/youtube_comments.csv'
+df.to_csv(output_path, index=False)
+print(f"Data successfully saved to '{output_path}'")
 
 # buat grafik plot
 sentiment_counts = df['sentiment'].value_counts().reset_index()
