@@ -4,7 +4,7 @@ import pandas as pd
 from googleapiclient.discovery import build
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, pipeline
 
-nlp = spacy.blank("id")
+nlp = spacy.load("en_core_web_lg")
 
 
 # Load IndoBERT model and tokenizer
