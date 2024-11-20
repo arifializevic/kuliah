@@ -1,21 +1,27 @@
-import spacy
 import matplotlib.pyplot as plt
+import seaborn as sns
+import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
 import pandas as pd
 from googleapiclient.discovery import build
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, pipeline
 
-nlp = spacy.load("en_core_web_lg")
+# Download NLTK resources
+nltk.download('punkt')
+nltk.download('stopwords')
 
+stop_words = set(stopwords.words('indonesian'))
 
 # Load IndoBERT model and tokenizer
-model_name = "indobenchmark/indobert-base-p1"
+model_name = "indolem/indobert-base-uncased"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForSequenceClassification.from_pretrained(model_name)
 sentiment_pipeline = pipeline(
     "sentiment-analysis", model=model, tokenizer=tokenizer)
 
 # Video ID and API Key
-video_id = "bER11eIA3y0"  # video ID Youtube
+video_id = "bER11eIA3y0"  # Video ID YouTube
 apikey = "AIzaSyDrwVcjd1hQpsivM11bq996l1zn9xj5r38"  # API Key
 
 
@@ -51,7 +57,6 @@ def video_comments(video_id, apikey):
                     likeCount = reply['snippet']['likeCount']
                     replies.append([published, user, repl, likeCount])
 
-        # Handle pagination
         if 'nextPageToken' in video_response:
             video_response = youtube.commentThreads().list(
                 part='snippet,replies',
@@ -81,54 +86,60 @@ def analyze_sentiment_indo(comment):
         return "netral"
 
 
-def preprocess_text(text):
+def preprocess_text_nltk(text):
     """
-    Preprocess text by normalizing and removing stopwords using spaCy.
+    Preprocess text by normalizing and removing stopwords using NLTK.
     Args:
         text (str): Original text.
     Returns:
         str: Cleaned text.
     """
-    # Use spaCy to process the text
-    doc = nlp(text.lower())  # Convert to lowercase and process with spaCy
-    # Filter out stopwords and non-alphabetical tokens
-    text = [token.text for token in doc if not token.is_stop and token.is_alpha]
-    return ' '.join(text)
+    text = text.lower()
+    words = word_tokenize(text)
+    # Remove stopwords and non-alphabetical tokens
+    words = [word for word in words if word.isalpha()
+             and word not in stop_words]
+    return ' '.join(words)
 
 
-# ambil komentar
 comments = video_comments(video_id, apikey)
 
-# konvert ke DataFrame
 df = pd.DataFrame(comments, columns=[
                   'publishedAt', 'authorDisplayName', 'textDisplay', 'likeCount'])
 
-
-# Apply preprocessing
-df['textDisplay'] = df['textDisplay'].apply(preprocess_text)
-
-# Tambahkan kolom sentiment
+df['textDisplay'] = df['textDisplay'].apply(preprocess_text_nltk)
 df['sentiment'] = df['textDisplay'].apply(analyze_sentiment_indo)
-df
+print(df)
 
-# Save to CSV
-output_path = 'dataset/youtube_comments.csv'
-df.to_csv(output_path, index=False)
-print(f"Data successfully saved to '{output_path}'")
+# Save ke CSV
+# output_path = 'dataset/youtube_comments.csv'
+# df.to_csv(output_path, index=False)
+# print(f"Data successfully saved to '{output_path}'")
 
-# buat grafik plot
+plt.figure(figsize=(8, 10))
+sns.countplot(data=df['authorDisplayName'],
+              order=df['authorDisplayName'].value_counts().index)
+
+# grafik positive vs neutral vs negative
 sentiment_counts = df['sentiment'].value_counts().reset_index()
 sentiment_counts.columns = ['sentiment', 'count']
+unique_sentiments = sentiment_counts['sentiment'].nunique()
+color_palette = sns.color_palette("RdYlGn", unique_sentiments)
 
-plt.figure(figsize=(8, 5))
-plt.bar(sentiment_counts['sentiment'], sentiment_counts['count'], color=[
-        'green', 'blue', 'red'])
+# Plot menggunakan Seaborn
+sns.barplot(
+    data=sentiment_counts,
+    x='sentiment',
+    y='count',
+    hue='sentiment',  # Menambahkan hue untuk kategori
+    palette=color_palette
+)
+
+# Menambahkan judul dan label sumbu
+sns.despine()  # Menghilangkan garis tepi yang tidak perlu
 plt.title('Sentiment Distribution: Positive vs Neutral vs Negative', fontsize=16)
 plt.xlabel('Sentiment', fontsize=12)
 plt.ylabel('Number of Comments', fontsize=12)
-
-# Tambahkan grid untuk memperjelas tampilan
-plt.grid(axis='y', linestyle='--', alpha=0.7)
 
 # Tampilkan grafik
 plt.show()
