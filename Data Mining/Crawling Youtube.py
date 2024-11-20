@@ -109,12 +109,12 @@ df = pd.DataFrame(comments, columns=[
 
 df['textDisplay'] = df['textDisplay'].apply(preprocess_text_nltk)
 df['sentiment'] = df['textDisplay'].apply(analyze_sentiment_indo)
-df
+# df
 
 # Save ke CSV
-# output_path = 'dataset/youtube_comments.csv'
-# df.to_csv(output_path, index=False)
-# print(f"Data successfully saved to '{output_path}'")
+output_path = 'dataset/youtube_comments.csv'
+df.to_csv(output_path, index=False)
+print(f"Data successfully saved to '{output_path}'")
 
 # plt.figure(figsize=(8, 10))
 # sns.countplot(data=df['authorDisplayName'],
