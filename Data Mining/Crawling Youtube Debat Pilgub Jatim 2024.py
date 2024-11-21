@@ -34,7 +34,7 @@ paslon_df = pd.read_excel(file_path)
 
 # Konversi pasangan calon ke dictionary
 paslon = {
-    str(row['A']): [name.strip() for name in row['B'].split(',')]
+    str(row['paslon']): [name.strip() for name in row['candidates'].split(',')]
     for _, row in paslon_df.iterrows()
 }
 
