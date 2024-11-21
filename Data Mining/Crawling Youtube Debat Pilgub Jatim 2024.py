@@ -20,7 +20,7 @@ paslon = {
 }
 
 # Load IndoBERT model and tokenizer
-model_name = "indolem/indobert-base-uncased"
+model_name = "indobenchmark/indobert-base-p2"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForSequenceClassification.from_pretrained(model_name)
 sentiment_pipeline = pipeline(
@@ -106,87 +106,3 @@ df['paslon'] = df['textDisplay'].apply(find_paslon)
 output_path = 'dataset/youtube_comments_pilgub_jatim_2024.csv'
 df.to_csv(output_path, index=False)
 print(f"Data successfully saved to '{output_path}'")
-
-
-### grafik positif ###
-# Filter komentar dengan sentimen positif
-positive_comments = df[df['sentiment'] == 'positif']
-
-# Hitung jumlah komentar positif untuk setiap paslon
-positive_counts = positive_comments['paslon'].value_counts().reset_index()
-positive_counts.columns = ['paslon', 'count']
-
-# Sort berdasarkan paslon untuk memastikan urutan
-positive_counts = positive_counts.sort_values(by='paslon')
-
-sns.barplot(
-    data=positive_counts,
-    x='paslon',
-    y='count',
-    palette='Greens',
-    hue='paslon',
-    dodge=False
-)
-
-sns.despine()
-plt.title('Sentimen Positif dari Paslon', fontsize=16)
-plt.xlabel('Paslon', fontsize=12)
-plt.ylabel('Total Komentar Positif', fontsize=12)
-plt.legend([], [], frameon=False)
-plt.show()
-
-
-### grafik negatif ###
-# Filter komentar dengan sentimen negatif
-negative_comments = df[df['sentiment'] == 'negatif']
-
-# Hitung jumlah komentar negatif untuk setiap paslon
-negative_counts = negative_comments['paslon'].value_counts().reset_index()
-negative_counts.columns = ['paslon', 'count']
-
-# Sort berdasarkan paslon untuk memastikan urutan
-negative_counts = negative_counts.sort_values(by='paslon')
-
-sns.barplot(
-    data=negative_counts,
-    x='paslon',
-    y='count',
-    palette='Reds',
-    hue='paslon',
-    dodge=False
-)
-
-sns.despine()
-plt.title('Sentimen Negatif dari Paslon', fontsize=16)
-plt.xlabel('Paslon', fontsize=12)
-plt.ylabel('Total Komentar Negatif', fontsize=12)
-plt.legend([], [], frameon=False)
-plt.show()
-
-
-### grafik netral ###
-# Filter komentar dengan sentimen netral
-neutral_comments = df[df['sentiment'] == 'netral']
-
-# Hitung jumlah komentar positif untuk setiap paslon
-neutral_counts = neutral_comments['paslon'].value_counts().reset_index()
-neutral_counts.columns = ['paslon', 'count']
-
-# Sort berdasarkan paslon untuk memastikan urutan
-neutral_counts = neutral_counts.sort_values(by='paslon')
-
-sns.barplot(
-    data=neutral_counts,
-    x='paslon',
-    y='count',
-    palette='Blues',
-    hue='paslon',
-    dodge=False
-)
-
-sns.despine()
-plt.title('Sentimen Netral dari Paslon', fontsize=16)
-plt.xlabel('Paslon', fontsize=12)
-plt.ylabel('Total Komentar Netral', fontsize=12)
-plt.legend([], [], frameon=False)
-plt.show()
