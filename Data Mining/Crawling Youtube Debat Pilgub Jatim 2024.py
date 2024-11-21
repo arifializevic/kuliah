@@ -22,11 +22,18 @@ model = AutoModelForSequenceClassification.from_pretrained(model_name)
 sentiment_pipeline = pipeline(
     "sentiment-analysis", model=model, tokenizer=tokenizer)
 
-# Ambil file GDrive
-file_path = "paslon.xlsx"
-file_id = '19Xe7xVModP0V59gsjy6IA1FUakFcGjmq'
-gdown.download(
-    f'https://drive.google.com/uc?export=download&id={file_id}', file_path, quiet=False)
+
+### Ambil file GDrive ###
+# file_path = "paslon.xlsx"
+# file_id = '19Xe7xVModP0V59gsjy6IA1FUakFcGjmq'
+# gdown.download(
+# f'https://drive.google.com/uc?export=download&id={file_id}', file_path, quiet=False)
+### Ambil file GDrive ###
+
+
+### Ambil file dari local sajah ###
+file_path = r"D:\Data\Home\Data Kuliah\S2\Data Mining\Tugas Kelompok\paslon.xlsx"
+### Ambil file dari local sajah ###
 paslon_df = pd.read_excel(file_path)
 
 # Group kandidat berdasarkan paslon
@@ -116,117 +123,117 @@ df.to_csv(output_path, index=False)
 print(f"Data successfully saved to '{output_path}'")
 
 
-### Membuat Word Cloud ###
-text = ' '.join(df['textDisplay'])
-wordcloud = WordCloud(
-    width=800, height=400,
-    background_color='white',
-    colormap='viridis',
-    max_words=100
-).generate(text)
+# ### Membuat Word Cloud ###
+# text = ' '.join(df['textDisplay'])
+# wordcloud = WordCloud(
+#     width=800, height=400,
+#     background_color='white',
+#     colormap='viridis',
+#     max_words=100
+# ).generate(text)
 
-# Plot Word Cloud
-plt.figure(figsize=(10, 5))
-plt.imshow(wordcloud, interpolation='bilinear')
-plt.axis('off')  # Hilangkan sumbu
-plt.title('Word Cloud Paslon', fontsize=16)
-plt.show()
-
-
-### Membuat BarPlot ###
-# Hitung jumlah komentar berdasarkan sentimen
-sentiment_counts = df['sentiment'].value_counts().reset_index()
-sentiment_counts.columns = ['sentiment', 'count']
-
-sns.barplot(
-    data=sentiment_counts,
-    x='sentiment',
-    y='count',
-    hue='sentiment',
-    dodge=False
-)
-
-sns.despine()
-plt.title('Sentimen Positif vs Negatif vs Netral', fontsize=16)
-plt.xlabel('Sentimen', fontsize=12)
-plt.ylabel('Total Komentar', fontsize=12)
-plt.legend([], [], frameon=False)
-plt.show()
+# # Plot Word Cloud
+# plt.figure(figsize=(10, 5))
+# plt.imshow(wordcloud, interpolation='bilinear')
+# plt.axis('off')  # Hilangkan sumbu
+# plt.title('Word Cloud Paslon', fontsize=16)
+# plt.show()
 
 
-# Filter komentar dengan sentimen positif
-positive_comments = df[df['sentiment'] == 'positif']
+# ### Membuat BarPlot ###
+# # Hitung jumlah komentar berdasarkan sentimen
+# sentiment_counts = df['sentiment'].value_counts().reset_index()
+# sentiment_counts.columns = ['sentiment', 'count']
 
-# Hitung jumlah komentar positif untuk setiap paslon
-positive_counts = positive_comments['paslon'].value_counts().reset_index()
-positive_counts.columns = ['paslon', 'count']
+# sns.barplot(
+#     data=sentiment_counts,
+#     x='sentiment',
+#     y='count',
+#     hue='sentiment',
+#     dodge=False
+# )
 
-# Sort berdasarkan paslon untuk memastikan urutan
-positive_counts = positive_counts.sort_values(by='paslon')
-
-sns.barplot(
-    data=positive_counts,
-    x='paslon',
-    y='count',
-    hue='paslon',
-    dodge=False
-)
-
-sns.despine()
-plt.title('Sentimen Positif dari Paslon', fontsize=16)
-plt.xlabel('Paslon', fontsize=12)
-plt.ylabel('Total Komentar Positif', fontsize=12)
-plt.legend([], [], frameon=False)
-plt.show()
+# sns.despine()
+# plt.title('Sentimen Positif vs Negatif vs Netral', fontsize=16)
+# plt.xlabel('Sentimen', fontsize=12)
+# plt.ylabel('Total Komentar', fontsize=12)
+# plt.legend([], [], frameon=False)
+# plt.show()
 
 
-# Filter komentar dengan sentimen negatif
-negative_comments = df[df['sentiment'] == 'negatif']
+# # Filter komentar dengan sentimen positif
+# positive_comments = df[df['sentiment'] == 'positif']
 
-# Hitung jumlah komentar negatif untuk setiap paslon
-negative_counts = negative_comments['paslon'].value_counts().reset_index()
-negative_counts.columns = ['paslon', 'count']
+# # Hitung jumlah komentar positif untuk setiap paslon
+# positive_counts = positive_comments['paslon'].value_counts().reset_index()
+# positive_counts.columns = ['paslon', 'count']
 
-# Sort berdasarkan paslon untuk memastikan urutan
-negative_counts = negative_counts.sort_values(by='paslon')
+# # Sort berdasarkan paslon untuk memastikan urutan
+# positive_counts = positive_counts.sort_values(by='paslon')
 
-sns.barplot(
-    data=negative_counts,
-    x='paslon',
-    y='count',
-    hue='paslon',
-    dodge=False
-)
+# sns.barplot(
+#     data=positive_counts,
+#     x='paslon',
+#     y='count',
+#     hue='paslon',
+#     dodge=False
+# )
 
-sns.despine()
-plt.title('Sentimen Negatif dari Paslon', fontsize=16)
-plt.xlabel('Paslon', fontsize=12)
-plt.ylabel('Total Komentar Negatif', fontsize=12)
-plt.legend([], [], frameon=False)
-plt.show()
+# sns.despine()
+# plt.title('Sentimen Positif dari Paslon', fontsize=16)
+# plt.xlabel('Paslon', fontsize=12)
+# plt.ylabel('Total Komentar Positif', fontsize=12)
+# plt.legend([], [], frameon=False)
+# plt.show()
 
 
-# Filter komentar dengan sentimen netral
-neutral_comments = df[df['sentiment'] == 'netral']
+# # Filter komentar dengan sentimen negatif
+# negative_comments = df[df['sentiment'] == 'negatif']
 
-# Hitung jumlah komentar positif untuk setiap paslon
-neutral_counts = neutral_comments['paslon'].value_counts().reset_index()
-neutral_counts.columns = ['paslon', 'count']
+# # Hitung jumlah komentar negatif untuk setiap paslon
+# negative_counts = negative_comments['paslon'].value_counts().reset_index()
+# negative_counts.columns = ['paslon', 'count']
 
-# Sort berdasarkan paslon untuk memastikan urutan
-neutral_counts = neutral_counts.sort_values(by='paslon')
+# # Sort berdasarkan paslon untuk memastikan urutan
+# negative_counts = negative_counts.sort_values(by='paslon')
 
-sns.barplot(
-    data=neutral_counts,
-    x='paslon',
-    y='count',
-    hue='paslon',
-    dodge=False
-)
+# sns.barplot(
+#     data=negative_counts,
+#     x='paslon',
+#     y='count',
+#     hue='paslon',
+#     dodge=False
+# )
 
-sns.despine()
-plt.title('Sentimen Netral dari Paslon', fontsize=16)
-plt.xlabel('Paslon', fontsize=12)
-plt.ylabel('Total Komentar Netral', fontsize=12)
-plt.legend([], [], frameon=False)
-plt.show()
+# sns.despine()
+# plt.title('Sentimen Negatif dari Paslon', fontsize=16)
+# plt.xlabel('Paslon', fontsize=12)
+# plt.ylabel('Total Komentar Negatif', fontsize=12)
+# plt.legend([], [], frameon=False)
+# plt.show()
+
+
+# # Filter komentar dengan sentimen netral
+# neutral_comments = df[df['sentiment'] == 'netral']
+
+# # Hitung jumlah komentar positif untuk setiap paslon
+# neutral_counts = neutral_comments['paslon'].value_counts().reset_index()
+# neutral_counts.columns = ['paslon', 'count']
+
+# # Sort berdasarkan paslon untuk memastikan urutan
+# neutral_counts = neutral_counts.sort_values(by='paslon')
+
+# sns.barplot(
+#     data=neutral_counts,
+#     x='paslon',
+#     y='count',
+#     hue='paslon',
+#     dodge=False
+# )
+
+# sns.despine()
+# plt.title('Sentimen Netral dari Paslon', fontsize=16)
+# plt.xlabel('Paslon', fontsize=12)
+# plt.ylabel('Total Komentar Netral', fontsize=12)
+# plt.legend([], [], frameon=False)
+# plt.show()
