@@ -117,22 +117,43 @@ print(f"Data successfully saved to '{output_path}'")
 
 
 ### Membuat Word Cloud ###
+text = ' '.join(df['textDisplay'])
 wordcloud = WordCloud(
     width=800, height=400,
     background_color='white',
     colormap='viridis',
     max_words=100
-).generate(df)
+).generate(text)
 
 # Plot Word Cloud
 plt.figure(figsize=(10, 5))
 plt.imshow(wordcloud, interpolation='bilinear')
 plt.axis('off')  # Hilangkan sumbu
-plt.title('Word Cloud Example', fontsize=16)
+plt.title('Word Cloud Paslon', fontsize=16)
 plt.show()
 
 
 ### Membuat BarPlot ###
+# Hitung jumlah komentar berdasarkan sentimen
+sentiment_counts = df['sentiment'].value_counts().reset_index()
+sentiment_counts.columns = ['sentiment', 'count']
+
+# Visualisasi menggunakan Seaborn
+sns.barplot(
+    data=sentiment_counts,
+    x='sentiment',
+    y='count',
+    palette='viridis'
+)
+
+# Tambahkan detail visualisasi
+sns.despine()
+plt.title('Distribusi Sentimen Komentar', fontsize=16)
+plt.xlabel('Sentimen', fontsize=12)
+plt.ylabel('Jumlah Komentar', fontsize=12)
+plt.show()
+
+
 # Filter komentar dengan sentimen positif
 positive_comments = df[df['sentiment'] == 'positif']
 
