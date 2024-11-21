@@ -20,7 +20,7 @@ paslon = {
 }
 
 # Load IndoBERT model and tokenizer
-model_name = "indobenchmark/indobert-base-p2"
+model_name = "indobenchmark/indobert-large-p2"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForSequenceClassification.from_pretrained(model_name)
 sentiment_pipeline = pipeline(
