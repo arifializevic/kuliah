@@ -138,19 +138,19 @@ plt.show()
 sentiment_counts = df['sentiment'].value_counts().reset_index()
 sentiment_counts.columns = ['sentiment', 'count']
 
-# Visualisasi menggunakan Seaborn
 sns.barplot(
     data=sentiment_counts,
     x='sentiment',
     y='count',
-    palette='viridis'
+    hue='sentiment',
+    dodge=False
 )
 
-# Tambahkan detail visualisasi
 sns.despine()
-plt.title('Distribusi Sentimen Komentar', fontsize=16)
+plt.title('Sentimen Positif vs Negatif vs Netral', fontsize=16)
 plt.xlabel('Sentimen', fontsize=12)
-plt.ylabel('Jumlah Komentar', fontsize=12)
+plt.ylabel('Total Komentar', fontsize=12)
+plt.legend([], [], frameon=False)
 plt.show()
 
 
