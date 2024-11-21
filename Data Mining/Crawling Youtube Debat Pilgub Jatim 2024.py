@@ -22,7 +22,7 @@ sentiment_pipeline = pipeline(
     "sentiment-analysis", model=model, tokenizer=tokenizer)
 
 # Ganti dengan ID file dari URL Google Drive
-file_id = '19SKoa1RPqIMM2EY40mlCHDFf0WsdziZO'
+file_id = '19Xe7xVModP0V59gsjy6IA1FUakFcGjmq'
 url = f'https://drive.google.com/uc?export=download&id={file_id}'
 
 # Download file XLSX
