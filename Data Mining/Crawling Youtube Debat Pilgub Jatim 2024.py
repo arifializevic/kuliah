@@ -22,12 +22,12 @@ sentiment_pipeline = pipeline(
     "sentiment-analysis", model=model, tokenizer=tokenizer)
 
 # Ambil file GDrive
+file_path = "paslon.xlsx"
 file_id = '19Xe7xVModP0V59gsjy6IA1FUakFcGjmq'
 gdown.download(
-    f'https://drive.google.com/uc?export=download&id={file_id}', 'paslon.xlsx', quiet=False)
+    f'https://drive.google.com/uc?export=download&id={file_id}', file_path, quiet=False)
 
 # Load Paslon
-file_path = "paslon.xlsx"
 paslon_df = pd.read_excel(file_path)
 
 # Konversi pasangan calon ke dictionary
