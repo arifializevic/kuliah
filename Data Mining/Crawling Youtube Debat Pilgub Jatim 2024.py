@@ -21,15 +21,13 @@ model = AutoModelForSequenceClassification.from_pretrained(model_name)
 sentiment_pipeline = pipeline(
     "sentiment-analysis", model=model, tokenizer=tokenizer)
 
-# Ganti dengan ID file dari URL Google Drive
+# Ambil file GDrive
 file_id = '19Xe7xVModP0V59gsjy6IA1FUakFcGjmq'
-url = f'https://drive.google.com/uc?export=download&id={file_id}'
-
-# Download file XLSX
-gdown.download(url, 'paslon.xlsx', quiet=False)
+gdown.download(
+    f'https://drive.google.com/uc?export=download&id={file_id}', 'paslon.xlsx', quiet=False)
 
 # Load Paslon
-file_path = "paslon.xlsx"  # Ganti dengan path ke file XLSX Anda
+file_path = "paslon.xlsx"
 paslon_df = pd.read_excel(file_path)
 
 # Konversi pasangan calon ke dictionary
