@@ -26,15 +26,12 @@ file_path = "paslon.xlsx"
 file_id = '19Xe7xVModP0V59gsjy6IA1FUakFcGjmq'
 gdown.download(
     f'https://drive.google.com/uc?export=download&id={file_id}', file_path, quiet=False)
-
-# Load Paslon
 paslon_df = pd.read_excel(file_path)
 
-# Konversi pasangan calon ke dictionary
-paslon = {
-    str(row['paslon']): [name.strip() for name in row['kandidat'].split(',')]
-    for _, row in paslon_df.iterrows()
-}
+# Group kandidat berdasarkan paslon
+grouped_paslon = paslon_df.groupby(
+    'paslon')['kandidat'].apply(list).reset_index()
+paslon = grouped_paslon.set_index('paslon')['kandidat'].to_dict()
 
 # Video ID and API Key
 video_id = "gICn_zzf3j4"  # Video ID YouTube
