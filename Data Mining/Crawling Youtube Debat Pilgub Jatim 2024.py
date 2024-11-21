@@ -1,3 +1,4 @@
+import json
 import matplotlib.pyplot as plt
 import seaborn as sns
 import nltk
@@ -13,18 +14,16 @@ nltk.download('stopwords')
 
 stop_words = set(stopwords.words('indonesian'))
 
-paslon = {
-    '1': ['khofifah indar parawansa', 'emil elestianto dardak'],
-    '2': ['tri rismaharini', 'zahrul azhar asumta gus hans', 'risma'],
-    '3': ['luluk nur hamidah', 'lukmanul khakim']
-}
-
 # Load IndoBERT model and tokenizer
 model_name = "indobenchmark/indobert-large-p2"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForSequenceClassification.from_pretrained(model_name)
 sentiment_pipeline = pipeline(
     "sentiment-analysis", model=model, tokenizer=tokenizer)
+
+# Load Paslon
+with open("dataset\paslon.json") as json_file:
+    paslon = json.load(json_file)
 
 # Video ID and API Key
 video_id = "gICn_zzf3j4"  # Video ID YouTube
