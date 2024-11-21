@@ -1,4 +1,4 @@
-import json
+import gdown
 import matplotlib.pyplot as plt
 import seaborn as sns
 import nltk
@@ -21,9 +21,22 @@ model = AutoModelForSequenceClassification.from_pretrained(model_name)
 sentiment_pipeline = pipeline(
     "sentiment-analysis", model=model, tokenizer=tokenizer)
 
+# Ganti dengan ID file dari URL Google Drive
+file_id = '19SKoa1RPqIMM2EY40mlCHDFf0WsdziZO'
+url = f'https://drive.google.com/uc?export=download&id={file_id}'
+
+# Download file XLSX
+gdown.download(url, 'paslon.xlsx', quiet=False)
+
 # Load Paslon
-with open("dataset\paslon.json") as json_file:
-    paslon = json.load(json_file)
+file_path = "paslon.xlsx"  # Ganti dengan path ke file XLSX Anda
+paslon_df = pd.read_excel(file_path)
+
+# Konversi pasangan calon ke dictionary
+paslon = {
+    str(row['A']): [name.strip() for name in row['B'].split(',')]
+    for _, row in paslon_df.iterrows()
+}
 
 # Video ID and API Key
 video_id = "gICn_zzf3j4"  # Video ID YouTube
@@ -102,6 +115,6 @@ df['sentiment'] = df['textDisplay'].apply(analyze_sentiment_indo)
 df['paslon'] = df['textDisplay'].apply(find_paslon)
 
 # Save ke CSV
-output_path = 'dataset/youtube_comments_pilgub_jatim_2024.csv'
+output_path = 'youtube_comments_pilgub_jatim_2024.csv'
 df.to_csv(output_path, index=False)
 print(f"Data successfully saved to '{output_path}'")
