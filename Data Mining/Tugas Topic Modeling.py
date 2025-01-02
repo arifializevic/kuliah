@@ -1,7 +1,7 @@
 from bertopic import BERTopic
 
 # Membaca dataset dari file
-with open("Dataset/Pidato Presiden Prabowo 2024_convert .txt", "r", encoding="utf-8") as file:
+with open("Dataset/Pidato Presiden Prabowo 2024_convert.txt", "r", encoding="utf-8") as file:
     text = file.read()
 
 # Memecah teks menjadi paragraf atau bagian
