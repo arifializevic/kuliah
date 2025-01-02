@@ -1,5 +1,4 @@
 import matplotlib.pyplot as plt
-import seaborn as sns
 import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
