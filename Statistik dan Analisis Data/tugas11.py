@@ -6,7 +6,7 @@ from statsmodels.stats.diagnostic import het_breuschpagan
 from statsmodels.stats.stattools import durbin_watson
 
 # Dataset
-df = pd.read_csv('dataset.csv')
+df = pd.read_csv('dataset_tugas11.csv')
 
 # Menentukan variabel dependen dan independen
 X = df[['Kualitas_Produk', 'Lama_Pengiriman','Pembayaran', 'Promo', 'Voucher', 'Kesesuaian_Produk']]
