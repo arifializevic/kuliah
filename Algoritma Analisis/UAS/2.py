@@ -4,9 +4,8 @@ class Node:
         self.left = None
         self.right = None
 
+
 # Binary Tree Traversal Functions
-
-
 def in_order_traversal(root):
     return in_order_traversal(root.left) + [root.data] + in_order_traversal(root.right) if root else []
 
