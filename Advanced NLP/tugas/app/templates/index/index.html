@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<form method="POST">
+    <input type="text" id="inputText" name="inputText" placeholder="Masukkan teks di sini">
+    <button id="processButton">Proses Teks</button>
+</form>
+
+{% if data %}
+<h3>Hasil Preprocessing:</h3>
+<p><strong>Tokens:</strong> {{ data.tokens }}</p>
+<p><strong>Filtered:</strong> {{ data.filtered_tokens }}</p>
+<p><strong>Lemmas:</strong> {{ data.lemmatized_tokens }}</p>
+<p><strong>POS Tags:</strong> {{ data.pos_tagged_tokens }}</p>
+{% endif %}
+
+{% endblock %}
